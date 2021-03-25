@@ -18,6 +18,16 @@
 
 using namespace cbor;
 
+void listener_debug::on_float32(float value){
+	
+	printf("float: %f\n", value);
+	printf("float: %lli.%lli\n", static_cast<int64_t>(value),  static_cast<int64_t>(1000*(value-static_cast<int64_t>(value))));
+}
+
+void listener_debug::on_double(double value){
+	printf("double: %f\n", value);
+	printf("double: %lli.%lli\n", static_cast<int64_t>(value),  static_cast<int64_t>(1000*(value-static_cast<int64_t>(value))));
+}
 void listener_debug::on_integer(int value) {
     printf("integer: %d\n", value);
 }

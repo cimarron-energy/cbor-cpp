@@ -24,6 +24,10 @@
 namespace cbor {
     class listener_debug : public listener {
     public:
+	    virtual void on_float32(float value);
+		
+        virtual void on_double(double value);
+
         virtual void on_integer(int value);
 
         virtual void on_bytes(unsigned char *data, int size);
