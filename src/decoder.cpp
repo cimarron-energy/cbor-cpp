@@ -206,15 +206,13 @@ void decoder::run() {
                         } else if(minorType == 24) {
                             _state = STATE_SPECIAL;
                             _currentLength = 1;
-                        } else if(minorType == 25) { // 2 byte
+                        } else if(minorType == 25) { // float16
                             _currentLength = 2;
                             _state = STATE_SPECIAL;
-                        } else if(minorType == 26) { // 4 byte
-                            _currentLength = 4;
-                            _state = STATE_SPECIAL;
-                        } else if(minorType == 27) { // 8 byte
-                            _currentLength = 8;
-                            _state = STATE_SPECIAL;
+                        } else if(minorType == 26) { // float32
+							_listener->on_float32(_in->get_float());
+                        } else if(minorType == 27) { // float64
+                            _listener->on_double(_in->get_double());
                         } else {
                             _state = STATE_ERROR;
                             _listener->on_error("invalid special type");
@@ -300,6 +298,7 @@ void decoder::run() {
                 _in->get_bytes(data, _currentLength);
                 _state = STATE_TYPE;
                 _listener->on_bytes(data, _currentLength);
+				delete[] data;
             } else break;
         } else if(_state == STATE_STRING_SIZE) {
             if(_in->has_bytes(_currentLength)) {
@@ -329,6 +328,7 @@ void decoder::run() {
                 _state = STATE_TYPE;
                 std::string str((const char *)data, (size_t)_currentLength);
                 _listener->on_string(str);
+				delete[] data;
             } else break;
         } else if(_state == STATE_ARRAY) {
             if(_in->has_bytes(_currentLength)) {

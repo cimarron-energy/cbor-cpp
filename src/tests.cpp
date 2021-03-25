@@ -25,6 +25,8 @@ int main() {
         cbor::encoder encoder(output);
         encoder.write_array(9);
         {
+			encoder.write_float(11.49f);
+			encoder.write_double(11.49);
             encoder.write_int(123);
             encoder.write_string("bar");
             encoder.write_int(321);
